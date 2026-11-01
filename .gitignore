@@ -1,1 +1,19 @@
-.vscode
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Editors (a committed .vscode/settings.json once leaked a local path)
+.vscode/
+.idea/
+
+.DS_Store
