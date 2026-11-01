@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "knvrt"
+version = "1.0.0"
+description = "Unit conversions and everyday engineering calculators: a Python library, CLI and desktop app."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+authors = [{ name = "Lord Cheta" }]
+keywords = ["units", "conversion", "engineering", "calculator", "cli"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+gui = ["PySide6-Essentials>=6.7"]
+dev = ["pytest>=8", "pytest-cov>=5", "hypothesis>=6.100", "ruff>=0.6", "mypy>=1.11", "PySide6-Essentials>=6.7"]
+
+[project.scripts]
+knvrt = "knvrt.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/LordCheta/knvrt"
+Issues = "https://github.com/LordCheta/knvrt/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/knvrt"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "src"]
+addopts = "-ra --doctest-modules --ignore=src/knvrt/gui.py --cov=knvrt --cov-report=term-missing"
+
+[tool.coverage.report]
+omit = ["src/knvrt/__main__.py"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]  # the formulas use real Greek letters and dots
+
+[tool.mypy]
+strict = true
+python_version = "3.10"
+files = ["src/knvrt"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/knvrt/calculators.py" = ["E501"]  # the registration table reads better on long lines
+"tests/test_gui.py" = ["E402"]  # the Qt platform must be set before importing PySide6
